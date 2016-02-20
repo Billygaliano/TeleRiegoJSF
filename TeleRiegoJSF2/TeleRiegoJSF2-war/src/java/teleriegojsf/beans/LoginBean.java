@@ -17,7 +17,7 @@ import teleriegojsf.model.Membership;
 public class LoginBean {
     @EJB
     private MembershipFacade membershipFacade;
-    private String memberNumber;
+    private String member;
     private String password;
     private boolean errorPassword;
     private boolean accountIdExists;
@@ -65,11 +65,11 @@ public class LoginBean {
     }
 
     public String getMemberNumber() {
-        return memberNumber;
+        return member;
     }
 
-    public void setMemberNumber(String memberNumber) {
-        this.memberNumber = memberNumber;
+    public void setMemberNumber(String member) {
+        this.member = member;
     }
 
     public String getPassword() {
@@ -82,22 +82,25 @@ public class LoginBean {
     
     public String doLogin() {
         
-        int memberNumberInteger = Integer.parseInt(memberNumber);
-        BigDecimal memberNumberBI = new BigDecimal(memberNumberInteger);
-        boolean testingUser = membershipFacade.testingMemberUser(memberNumberBI);
-        boolean passwordAutenticated = membershipFacade.autentication(memberNumberBI, password);
+        int memberNumberInteger = Integer.parseInt(member);
+        BigDecimal memberNumber = new BigDecimal(memberNumberInteger);
+        boolean testingUser = membershipFacade.testingMemberUser(memberNumber);
+        boolean passwordAutenticated = false;
+        if(testingUser){
+            passwordAutenticated = membershipFacade.autentication(memberNumber, password);
+        }
         
-        if (memberNumber == null || password == null) {
+        if (member == null || password == null) {
             return("login");
         }else if(!testingUser || !passwordAutenticated){
             errorPassword = true;
             return("login");
         } else {            
-            membershipSelected = membershipFacade.getMembership(memberNumberBI);
+            membershipSelected = membershipFacade.getMembership(memberNumber);
             
             if(membershipSelected.getRole().equalsIgnoreCase("administrador")){
-                if(membershipFacade.getMembershipAccountId(memberNumberBI) != null){
-                    accountId = membershipFacade.getMembershipAccountId(memberNumberBI);
+                if(membershipFacade.getMembershipAccountId(memberNumber) != null){
+                    accountId = membershipFacade.getMembershipAccountId(memberNumber);
                     accountIdExists = true;
                 }else{
                     accountIdExists = false;
