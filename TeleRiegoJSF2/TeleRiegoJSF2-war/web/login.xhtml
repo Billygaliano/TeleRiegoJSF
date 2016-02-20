@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<f:view xmlns:f="http://xmlns.jcp.org/jsf/core">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -43,7 +42,8 @@
                             <li><a href="index.html#section-about">Organización</a></li>
                             <li><a href="index.html#section-works">Entidades colaboradoras</a></li>
                             <li><a href="index.html#section-contact">Contacto</a></li>
-                            <li><a href="login.xhtml">Acceso a regantes</a></li>
+                            <li><a href="faces/login.xhtml">Acceso a regantes</a></li>
+                            <li><a href="faces/profile.xhtml">Perfil</a></li>
                         </ul>
                     </div><!--/.navbar-collapse -->
                 </div>
@@ -68,16 +68,16 @@
                                 <div class="wow bounceIn">
                                     <div class="form-group">
                                         <label for="name">Usuario</label>
-                                        <h:inputText id="user" class="form-control"/>
+                                        <h:inputText id="user" class="form-control" value="#{loginBean.memberNumber}"/>
                                         <div class="validation"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Contraseña</label>
-                                        <h:inputSecret id="password" class="form-control"/>
+                                        <h:inputSecret id="password" class="form-control" value="#{loginBean.password}"/>
                                         <div class="validation"></div>
                                     </div>
-                                    <h:commandButton class="line-btn green" value="Acceder" action=“"/>
-                                    <h:outputLabel styleClass="error" value="<p>Usuario o contraseña incorrectos</p>" rendered="#{errorPassword == true}" /> 
+                                    <h:commandButton class="line-btn green" value="Acceder" action="#{loginBean.doLogin}"/>
+                                    <h:outputLabel styleClass="error" value="Usuario o contraseña incorrectos" rendered="#{loginBean.errorPassword == true}"/>
                                 </div>
                             </h:form>
                         </div>
@@ -133,5 +133,4 @@
         <h:outputScript library="js"  name="wow.min.js"></h:outputScript>
     </h:body>
 
-</html>>
-</f:view>
+</html>
