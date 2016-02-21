@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="Template.xhtml">
+
+            <ui:define name="content">
+                <div class="container">
+                    <section id="perf" class="section appear clearfix">
+                        <div class="container">  
+                            <div class="align-center"><h2>Terreno: ${specificLand.nameland}</h2><br></br> </div>
+                            <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
+                                <div class="land-details">
+                                    <h3>Predicción próximos días</h3>
+                                    <table style="width: 100%"> 
+                                        <tbody> 
+                                            <tr>                               
+
+                                            </tr> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="land-details">
+                                    <h3>Características del terreno</h3>
+                                    <p id="area">Superficie: <strong>320m m<sup>2</sup></strong></p>
+                                    <p id="humedad">Humedad de la tierra: <strong>88%</strong></p>
+                                    <p id="fechariego">Fecha del último riego: <strong>22/09/16</strong></p>
+                                </div>
+                                <div class="land-details">
+                                        <h3>Agua disponible para regar</h3>
+                                        <p id="humedad">Agua disponible para regar: <strong>332m<sup>3</sup></strong></p>
+                                        <form action="#" method="post" role="form">
+                                            <button type="submit" class="line-btn green">Comprar agua</button>
+                                        </form>
+                                </div>
+                                        <div class="land-details">
+                                                    <h3>Estado del riego</h3>
+                                                    <span>Regando...</span>
+                                                    <form action="#" method="post" role="form">
+                                                        <button type="submit" class="line-btn green">Dejar de regar</button>
+                                                    </form>
+                                                    <h3>Recomendación de riego</h3>
+                                                            <p>Le recomendamos que riegue este terreno.</p>
+                                                            <form action="#" method="post" role="form">
+                                                                <button type="submit" class="line-btn green">Regar</button>
+                                                            </form>
+                                                            <p>Este terreno no necesita regarse.</p>
+                                                            <form action="#" method="post" role="form">
+                                                                <button type="submit" class="line-btn green">Regar</button>
+                                                            </form>
+                                                <label class="error">El regado está bloqueado por el administrador</label>
+                                        </div>
+                            </div>
+                            <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
+                                <p id="map">Información sobre la localización MAPA</p>
+                            </div>                      
+                        </div>
+                    </section>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

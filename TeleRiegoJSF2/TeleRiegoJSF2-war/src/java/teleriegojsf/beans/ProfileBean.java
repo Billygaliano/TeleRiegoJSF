@@ -5,8 +5,14 @@
  */
 package teleriegojsf.beans;
 
+import java.math.BigDecimal;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import teleriegojsf.ejb.MembershipFacade;
+import teleriegojsf.model.Membership;
 
 /**
  *
@@ -15,17 +21,32 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ProfileBean {
-    private int memberNumber;
-    private String dni;
-    private String userName;
-    private String surname;
-    private String address;
-    private String phone;
-    private String email;
+    
+    @EJB
+    private MembershipFacade membershipFacade;
+    
+    private Membership membershipSelected;
+    private List<Membership> list;
     /**
      * Creates a new instance of ProfileBean
      */
+    
     public ProfileBean() {
     }
     
+    @PostConstruct
+    public void init () {
+        BigDecimal number = new BigDecimal("0");
+        membershipSelected = membershipFacade.getMembership(number);
+        
+    }
+
+    public Membership getMembershipSelected() {
+        return membershipSelected;
+    }
+
+    public void setMembershipSelected(Membership membershipSelected) {
+        this.membershipSelected = membershipSelected;
+    }
+
 }
