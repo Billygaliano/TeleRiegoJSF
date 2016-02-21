@@ -1,10 +1,14 @@
 package teleriegojsf.beans;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import teleriegojsf.ejb.MembershipFacade;
 import teleriegojsf.model.Membership;
 
@@ -14,7 +18,7 @@ import teleriegojsf.model.Membership;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean implements Serializable{
     @EJB
     private MembershipFacade membershipFacade;
     private String member;
@@ -81,7 +85,6 @@ public class LoginBean {
     }
     
     public String doLogin() {
-        
         int memberNumberInteger = Integer.parseInt(member);
         BigDecimal memberNumber = new BigDecimal(memberNumberInteger);
         boolean testingUser = membershipFacade.testingMemberUser(memberNumber);
@@ -89,7 +92,7 @@ public class LoginBean {
         if(testingUser){
             passwordAutenticated = membershipFacade.autentication(memberNumber, password);
         }
-        
+
         if (member == null || password == null) {
             return("login");
         }else if(!testingUser || !passwordAutenticated){
@@ -97,7 +100,7 @@ public class LoginBean {
             return("login");
         } else {            
             membershipSelected = membershipFacade.getMembership(memberNumber);
-            
+
             if(membershipSelected.getRole().equalsIgnoreCase("administrador")){
                 if(membershipFacade.getMembershipAccountId(memberNumber) != null){
                     accountId = membershipFacade.getMembershipAccountId(memberNumber);
@@ -109,5 +112,27 @@ public class LoginBean {
             }
             return("profile");
         }
+    }
+    
+    public String existUserLoged(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Object session = externalContext.getSession(false);
+        
+        if(session != null){
+            return("profile");
+        }else{
+            return("login");
+        }
+    }
+    
+    public String doLogout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        Object session = externalContext.getSession(false);
+        HttpSession httpSession = (HttpSession) session;
+        httpSession.invalidate();
+        
+        return("login");
     }
 }
