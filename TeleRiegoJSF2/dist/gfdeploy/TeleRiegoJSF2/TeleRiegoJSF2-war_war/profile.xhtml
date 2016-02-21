@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -15,9 +16,9 @@
                         <div class="row mar-bot40 col-md-2" role="group" style="margin-top: 0px">
                             <p id="photo" >
                               <img class="img-rounded " alt="profile" src="#"/>
+                              <h:graphicImage value="images/#{imagesBean}"/>
                             </p>
                             <a href="ServletUploadImage"><button type="button" id="uploadimage" class="line-btn green">Cambiar/Subir Foto</button></a>
-                            
                                 <form action="ServletChangeImage" method="POST" enctype="multipart/form-data">
                                     <input type="file" name="image" />
                                     <input type="submit" value="Subir" />
@@ -31,12 +32,12 @@
                             
                         </div>                        
                         <div class="row mar-bot40 col-md-offset-1 col-md-4" role="group" style="margin-top: 0px"> 
-                            <p>Número de usuario: <strong>Fernando</strong></p>
-                            <p>DNI: <strong>12312341234</strong></p>
-                            <p>Nombre y apellidos: <strong>Fernando Galan</strong></p>
-                            <p>Dirección: <strong>C/Andalucia</strong></p>
-                            <p>Teléfono: <strong>654654654</strong></p>
-                            <p>E-Mail: <strong>fernando_883@hotmail.es</strong></p>
+                            <p>Número de usuario: <strong>#{profileBean.membershipSelected.memberNumber}</strong></p>
+                            <p>DNI: <strong>#{profileBean.membershipSelected.dni}</strong></p>
+                            <p>Nombre y apellidos: <strong>#{profileBean.membershipSelected.userName} #{profileBean.membershipSelected.surname}</strong></p>
+                            <p>Dirección: <strong>#{profileBean.membershipSelected.address}</strong></p>
+                            <p>Teléfono: <strong>#{profileBean.membershipSelected.phone}</strong></p>
+                            <p>E-Mail: <strong>#{profileBean.membershipSelected.email}</strong></p>
                             <a href="#"><button type="button" id="changepass" class="line-btn green">Cambiar Contraseña</button></a>                         
                         </div>
                         <div class="row mar-bot40 col-lg-offset-2 col-md-3" role="group" style="margin-top:0px">
