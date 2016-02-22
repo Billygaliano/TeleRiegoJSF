@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="Template.xhtml">
+            <ui:define name="content">
+                <div class="container">
+                <section id="perf" class="section appear clearfix">
+                    <div class="container">  
+                        <div class="align-center"><h1>Transacciones</h1><br /> </div>  
+                        <h:form id="form">
+                            <p:accordionPanel class="accordion-section" value="#{transactionBean.transactions}" var="transaction">
+                                <p:tab title="Transacción nº - #{transaction.norder}">
+                                            <h:panelGrid columns="2" cellpadding="5">
+
+                                            <h:outputText value="Fecha:  " style="font-weight: bold" />
+                                            <h:outputText value="#{transaction.dateOrder}" />
+
+                                            <h:outputText value="Terrreno:  " style="font-weight: bold" />
+                                            <h:outputText value="#{transaction.landId.nameland}" />
+
+                                            <h:outputText value="Estado:  " style="font-weight: bold" />
+                                            <h:outputText value="#{transaction.stateOrder}" />
+
+                                            <h:outputText value="Cantidad:  " style="font-weight: bold" />
+                                            <h:outputText value="#{transaction.amount}" />
+
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                        </h:form>
+                    </div>
+                </section>
+            </div>
+            </ui:define>    
+        </ui:composition>
+
+    </body>
+</html>
+
+

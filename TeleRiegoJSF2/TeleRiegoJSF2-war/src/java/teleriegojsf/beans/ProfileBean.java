@@ -5,12 +5,13 @@
  */
 package teleriegojsf.beans;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import teleriegojsf.ejb.MembershipFacade;
 import teleriegojsf.model.Membership;
 
@@ -19,8 +20,8 @@ import teleriegojsf.model.Membership;
  * @author inftel10
  */
 @ManagedBean
-@SessionScoped
-public class ProfileBean {
+@RequestScoped
+public class ProfileBean implements Serializable{
     
     @EJB
     private MembershipFacade membershipFacade;
@@ -36,7 +37,7 @@ public class ProfileBean {
     
     @PostConstruct
     public void init () {
-        BigDecimal number = new BigDecimal("0");
+        BigDecimal number = new BigDecimal("123456");
         membershipSelected = membershipFacade.getMembership(number);
         
     }
