@@ -33,16 +33,16 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="fa fa-bars color-white"></span>
                         </button>
-                        <h1><a class="navbar-brand" href="index.html" data-0="line-height:90px;" data-300="line-height:50px;">Tele Riego
+                        <h1><a class="navbar-brand" href="index.xhtml" data-0="line-height:90px;" data-300="line-height:50px;">Tele Riego
                             </a></h1>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                            <li class="active"><a href="index.html">Inicio</a></li>
-                            <li><a href="index.html#section-about">Organización</a></li>
-                            <li><a href="index.html#section-works">Entidades colaboradoras</a></li>
-                            <li><a href="index.html#section-contact">Contacto</a></li>                              
-                            <li><h:link outcome="#{loginBean.existUserLoged()}" value="Acceso a regantes"></h:link></li>
+                            <li class="active"><a href="index.xhtml">Inicio</a></li>
+                            <li><a href="faces/index.xhtml#section-about">Organización</a></li>
+                            <li><a href="faces/index.xhtml#section-works">Entidades colaboradoras</a></li>
+                            <li><a href="faces/index.xhtml#section-contact">Contacto</a></li>                              
+                            <li><a href="faces/login.xhtml">Acceso a regantes</a></li>
                         </ul>
                     </div><!--/.navbar-collapse -->
                 </div>
@@ -76,7 +76,7 @@
                                         <div class="validation"></div>
                                     </div>
                                     <h:commandButton class="line-btn green" value="Acceder" action="#{loginBean.doLogin}"/>
-                                    <h:outputLabel styleClass="error" value="Usuario o contraseña incorrectos" rendered="#{loginBean.errorPassword == true}"/>
+                                    <h:messages infoClass="error" errorClass="error"/>
                                 </div>
                             </h:form>
                         </div>

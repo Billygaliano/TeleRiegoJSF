@@ -32,12 +32,12 @@
                             
                         </div>                        
                         <div class="row mar-bot40 col-md-offset-1 col-md-4" role="group" style="margin-top: 0px"> 
-                            <p>Número de usuario: <strong>#{profileBean.membershipSelected.memberNumber}</strong></p>
-                            <p>DNI: <strong>#{profileBean.membershipSelected.dni}</strong></p>
-                            <p>Nombre y apellidos: <strong>#{profileBean.membershipSelected.userName} #{profileBean.membershipSelected.surname}</strong></p>
-                            <p>Dirección: <strong>#{profileBean.membershipSelected.address}</strong></p>
-                            <p>Teléfono: <strong>#{profileBean.membershipSelected.phone}</strong></p>
-                            <p>E-Mail: <strong>#{profileBean.membershipSelected.email}</strong></p>
+                            <p>Número de usuario: <strong>#{sessionScope.membershipSelected.memberNumber}</strong></p>
+                            <p>DNI: <strong>#{sessionScope.membershipSelected.dni}</strong></p>
+                            <p>Nombre y apellidos: <strong>#{sessionScope.membershipSelected.userName} #{sessionScope.membershipSelected.surname}</strong></p>
+                            <p>Dirección: <strong>#{sessionScope.membershipSelected.address}</strong></p>
+                            <p>Teléfono: <strong>#{sessionScope.membershipSelected.phone}</strong></p>
+                            <p>E-Mail: <strong>#{sessionScope.membershipSelected.email}</strong></p>
                             <a href="#"><button type="button" id="changepass" class="line-btn green">Cambiar Contraseña</button></a>                         
                         </div>
                         <div class="row mar-bot40 col-lg-offset-2 col-md-3" role="group" style="margin-top:0px">

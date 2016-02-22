@@ -33,7 +33,7 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="fa fa-bars color-white"></span>
                         </button>
-                        <h1><a class="navbar-brand" href="index.html" data-0="line-height:90px;" data-300="line-height:50px;">Tele Riego
+                        <h1><a class="navbar-brand" href="index.xhtml" data-0="line-height:90px;" data-300="line-height:50px;">Tele Riego
                             </a></h1>
                     </div>
                     <div class="navbar-collapse collapse">
@@ -46,8 +46,8 @@
                                </div>
                            </li>
                             <li><a href="ServletProfile">${membership.userName}</a></li>
-                            <li><a href="ServletTransaction">Transacciones</a></li>
-                            <li><a href="ServletLogOut">Cerrar Sesión</a></li>
+                            <li><a href="faces/transactionAdmin.xhtml">Transacciones</a></li>
+                            <li><h:form><h:commandButton value="Cerrrar" action="#{loginBean.doLogout()}"/></h:form></li>
                         </ul>
                     </div><!--/.navbar-collapse -->
                 </div>
