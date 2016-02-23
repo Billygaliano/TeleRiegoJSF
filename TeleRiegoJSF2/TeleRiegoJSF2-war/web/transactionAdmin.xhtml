@@ -20,7 +20,9 @@
                                     <h:panelGrid columns="2" cellpadding="5">
 
                                     <h:outputText value="Fecha:  " style="font-weight: bold" />
-                                    <h:outputText value="#{transaction.dateOrder}" />
+                                    <h:outputText value="#{transaction.dateOrder}">
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
 
                                     <h:outputText value="Terrreno:  " style="font-weight: bold" />
                                     <h:outputText value="#{transaction.landId.nameland}" />

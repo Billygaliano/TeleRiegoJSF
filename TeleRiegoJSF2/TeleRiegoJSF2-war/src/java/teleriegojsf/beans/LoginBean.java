@@ -117,7 +117,6 @@ public class LoginBean implements Serializable{
     }
     
     public String existUserLoged(){
-        
         if(membershipSelected != null){
             if(membershipSelected.getRole().equalsIgnoreCase("administrador")){
                 if(membershipFacade.getMembershipAccountId(membershipSelected.getMemberNumber()) != null){

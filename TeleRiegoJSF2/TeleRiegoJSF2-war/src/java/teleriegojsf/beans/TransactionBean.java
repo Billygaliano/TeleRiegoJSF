@@ -5,8 +5,11 @@
  */
 package teleriegojsf.beans;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;
 import teleriegojsf.ejb.TransactionFacade;
@@ -14,6 +17,7 @@ import teleriegojsf.model.Transaction;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import teleriegojsf.ejb.LandFacade;
 import teleriegojsf.ejb.MembershipFacade;
 
@@ -24,7 +28,6 @@ import teleriegojsf.ejb.MembershipFacade;
 @ManagedBean
 @RequestScoped
 public class TransactionBean {
-    @ManagedProperty(value="#{loginBean}")
     private LoginBean loginBean;    
     @EJB
     private LandFacade landFacade;
@@ -37,9 +40,20 @@ public class TransactionBean {
     
     @PostConstruct
     public void init(){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        loginBean = (LoginBean)fc.getApplication().evaluateExpressionGet(fc, "#{loginBean}", LoginBean.class);
+        
+        if(loginBean.getMembershipSelected() == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         BigDecimal memberNumber = new BigDecimal(loginBean.getMemberNumber());
         transactions = transactionFacade.getTransactionsByMember(memberNumber);
-    } 
+    }
 
     public LoginBean getLoginBean() {
         return loginBean;

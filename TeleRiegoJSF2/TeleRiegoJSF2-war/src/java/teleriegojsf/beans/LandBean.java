@@ -7,12 +7,16 @@ package teleriegojsf.beans;
 
 import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.json.JsonArray;
 import teleriegojsf.client.WeatherClient;
 import teleriegojsf.devicesimulator.DeviceSimulator;
@@ -27,16 +31,16 @@ import teleriegojsf.model.Land;
  */
 @ManagedBean
 @SessionScoped
-public class LandBean implements Serializable{
-    @EJB
-    private Recommendation recommendation;    
-    
+public class LandBean implements Serializable{    
     private static final String LATCH_APP_ID = "W2i6TtX6N8C9GNugxkRh";
     private static final String LATCH_SECRET = "T67WcbigW69xjzqJMFuYp9xFRFRj3YrcgMVaxwTQ";
     private Land landSelected;
     private boolean needIrrigate;
     private JsonArray wsResult;
     private boolean lockedState;
+    private LoginBean loginBean;
+    @EJB
+    private Recommendation recommendation;    
     
     @EJB
     private LandFacade landFacade;
@@ -52,6 +56,15 @@ public class LandBean implements Serializable{
     
     @PostConstruct
     public void init(){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        loginBean = (LoginBean)fc.getApplication().evaluateExpressionGet(fc, "#{loginBean}", LoginBean.class);
+        if(loginBean.getMembershipSelected() == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         lockedState = false;
     }
     

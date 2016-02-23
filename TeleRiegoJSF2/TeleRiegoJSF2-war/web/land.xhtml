@@ -31,6 +31,7 @@
                                                     <h:panelGroup rendered="#{predictionForDay.prediction.toString().contains('Muy nuboso')}">
                                                         <p class="simbDay"><img src="http://www.tiempo.com/css/images/widget/g20/new/big-3.png" alt="Muy nuboso" title="Muy nuboso" /></p>
                                                     </h:panelGroup>
+                                                    <p class="nomData"><span class="data">#{predictionForDay.dateWeather.toString().subSequence(1, 11)}</span></p> 
                                                     <p class="temps"> 
                                                         <span class="TMax">#{predictionForDay.tmax}°</span> 
                                                         <span class="TMin">#{predictionForDay.tmin}°</span> 

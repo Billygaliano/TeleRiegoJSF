@@ -8,6 +8,8 @@ package teleriegojsf.beans;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -28,10 +30,8 @@ import teleriegojsf.ejb.MembershipFacade;
 @ManagedBean
 @SessionScoped
 public class ProfileBean implements Serializable{
-    
     @EJB
     private MembershipFacade membershipFacade;
-    @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
     private String newPassword;
     private String oldPassword;
@@ -47,14 +47,20 @@ public class ProfileBean implements Serializable{
      * Creates a new instance of ProfileBean
      */
     
-
-    
     @PostConstruct
     public void init () {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        loginBean = (LoginBean)fc.getApplication().evaluateExpressionGet(fc, "#{loginBean}", LoginBean.class);
+        if(loginBean.getMembershipSelected() == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         passwordChange = false;
-        
     }
-    
+        
     public ProfileBean() {
     }
     
@@ -99,8 +105,14 @@ public class ProfileBean implements Serializable{
     }
 
     public StreamedContent getPhoto() throws IOException {
-        byte[] image = membershipFacade.getMembershipImage(loginBean.getMembershipSelected().getMemberNumber());
-        return new DefaultStreamedContent(new ByteArrayInputStream(image));
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(context.getRenderResponse()){
+            return new DefaultStreamedContent();
+        }
+        else{
+            byte[] image = membershipFacade.getMembershipImage(loginBean.getMembershipSelected().getMemberNumber());
+            return new DefaultStreamedContent(new ByteArrayInputStream(image));
+        }
         
     }
 

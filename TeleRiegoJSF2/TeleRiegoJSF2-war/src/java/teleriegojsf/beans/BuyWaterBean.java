@@ -5,10 +5,15 @@
  */
 package teleriegojsf.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import teleriegojsf.ejb.TransactionFacade;
 import teleriegojsf.model.Land;
 
@@ -23,9 +28,23 @@ public class BuyWaterBean implements Serializable{
     private String quantity;
     private double total;
     private Land selectedLand;
+    private LoginBean loginBean;
     
     @EJB
     private TransactionFacade transactionFacade;
+    
+    @PostConstruct
+    public void init () {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        loginBean = (LoginBean)fc.getApplication().evaluateExpressionGet(fc, "#{loginBean}", LoginBean.class);
+        if(loginBean.getMembershipSelected() == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     /**
      * Creates a new instance of BuyWaterBean
