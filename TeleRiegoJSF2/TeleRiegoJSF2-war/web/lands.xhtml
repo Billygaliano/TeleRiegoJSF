@@ -24,6 +24,8 @@
 
                                             <h:outputText value="Humedad:" style="font-weight: bold" />
                                             <h:outputText value="#{land.humidity}" />
+                                            
+                                            <h:commandButton class="line-btn green" action="#{landBean.doAccess(land.landId)}" value="Acceder" />
                                         </h:panelGrid>
                                     </p:tab>
                                 </p:accordionPanel>

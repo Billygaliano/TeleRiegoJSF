@@ -7,28 +7,15 @@ package teleriegojsf.beans;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import teleriegojsf.ejb.TransactionFacade;
 import teleriegojsf.model.Transaction;
-
-
- 
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
- 
-import org.primefaces.event.TabChangeEvent;
-import org.primefaces.event.TabCloseEvent;
+import javax.faces.bean.ManagedProperty;
 import teleriegojsf.ejb.LandFacade;
 import teleriegojsf.ejb.MembershipFacade;
-import teleriegojsf.model.Land;
-import teleriegojsf.model.Membership;
 
 /**
  *
@@ -37,12 +24,30 @@ import teleriegojsf.model.Membership;
 @ManagedBean
 @RequestScoped
 public class TransactionBean {
+    @ManagedProperty(value="#{loginBean}")
+    private LoginBean loginBean;    
     @EJB
     private LandFacade landFacade;
     @EJB
     private MembershipFacade membershipFacade;
     @EJB
     private TransactionFacade transactionFacade;
+    
+    private Collection<Transaction> transactions;
+    
+    @PostConstruct
+    public void init(){
+        BigDecimal memberNumber = new BigDecimal(loginBean.getMemberNumber());
+        transactions = transactionFacade.getTransactionsByMember(memberNumber);
+    } 
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }
 
     public LandFacade getLandFacade() {
         return landFacade;
@@ -59,20 +64,6 @@ public class TransactionBean {
     public void setMembershipFacade(MembershipFacade membershipFacade) {
         this.membershipFacade = membershipFacade;
     }
-
-    public Collection<Land> getLands() {
-        return lands;
-    }
-
-    public void setLands(Collection<Land> lands) {
-        this.lands = lands;
-    }
-    
-    
-    
-    private Collection<Transaction> transactions;
-    private Collection<Land> lands;
-
 
     /**
      * Creates a new instance of TransactionBean
@@ -95,26 +86,5 @@ public class TransactionBean {
 
     public void setTransactions(Collection<Transaction> transactions) {
         this.transactions = transactions;
-    }
-    
-    @PostConstruct
-    public void init(){
-        BigDecimal number = new BigDecimal("123456");
-        
-        Membership member = membershipFacade.getMembership(number);
-        lands = member.getLandCollection();
-        
-        for(Land land: lands){
-            System.out.println("Tierra: " + land.getNameland());
-        }
-        
-        
-        
-        transactions = transactionFacade.getTransactionsByMember(number);
-     
-
-        
-      
-    } 
-    
+    }    
 }

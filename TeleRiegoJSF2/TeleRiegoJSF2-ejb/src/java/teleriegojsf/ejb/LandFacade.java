@@ -33,6 +33,7 @@ public class LandFacade extends AbstractFacade<Land> {
     
     public Land getLand(BigDecimal landId){
         Land specificLand = em.find(Land.class, landId);
+        em.refresh(specificLand);        
         return specificLand;
     }
     

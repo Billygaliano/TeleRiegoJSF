@@ -37,16 +37,17 @@ public class TransactionFacade extends AbstractFacade<Transaction> {
     }
     
     public void setTransaction(BigDecimal landId,BigDecimal memberNumber,double amount) {
-
         Membership membership = em.find(Membership.class,memberNumber);
         Land land = em.find(Land.class, landId);
         Date date = new Date();
         Transaction transaction = new Transaction();
         double price = 0.22;
+        
         try {
-           
             double total = amount*price; 
             
+//            BigDecimal nOrder = new BigDecimal("101");
+//            transaction.setNorder(nOrder);
             transaction.setMemberNumber(membership);
             transaction.setAmount(amount);
             transaction.setLandId(land);
