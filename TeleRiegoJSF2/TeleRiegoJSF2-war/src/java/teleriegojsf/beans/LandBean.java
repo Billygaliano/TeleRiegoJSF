@@ -42,10 +42,9 @@ public class LandBean implements Serializable{
     public String doAccess(BigDecimal landId){        
         WeatherClient weatherClient = new WeatherClient();
         wsResult = weatherClient.findAll_JSON(JsonArray.class);
-        
         landSelected = landFacade.getLand(landId);
-        System.out.println("Estado: " + landSelected.getState());
         needIrrigate = recommendation.suggestIrrigation(landSelected.getHumidity(), landSelected.getLastDateIrrigation(), landSelected.getWMAvailable(), wsResult);
+        
         return("land");
     }
     

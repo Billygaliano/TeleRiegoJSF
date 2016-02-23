@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import teleriegojsf.model.Land;
 import teleriegojsf.model.Membership;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-02-23T10:01:16")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-02-23T10:12:30")
 @StaticMetamodel(Transaction.class)
 public class Transaction_ { 
 

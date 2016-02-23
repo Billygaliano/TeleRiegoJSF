@@ -40,6 +40,7 @@ public class BuyWaterBean implements Serializable{
     public String doConfirmationBuyWater(Land landSelected){        
         double quantityDouble = Integer.parseInt(quantity);  
         transactionFacade.setTransaction(selectedLand.getLandId(),selectedLand.getMemberNumber().getMemberNumber(),quantityDouble);
+        quantity = null;
         total = quantityDouble * 0.22;
         confirmedBuyWater = true;
         
