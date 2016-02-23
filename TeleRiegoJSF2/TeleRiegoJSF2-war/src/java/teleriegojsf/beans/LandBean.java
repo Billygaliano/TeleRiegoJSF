@@ -18,8 +18,8 @@ import teleriegojsf.client.WeatherClient;
 import teleriegojsf.devicesimulator.DeviceSimulator;
 import teleriegojsf.ejb.LandFacade;
 import teleriegojsf.ejb.MembershipFacade;
+import teleriegojsf.ejb.Recommendation;
 import teleriegojsf.model.Land;
-import teleriegojsf.model.rs.Recommendation;
 
 /**
  *
@@ -28,11 +28,11 @@ import teleriegojsf.model.rs.Recommendation;
 @ManagedBean
 @SessionScoped
 public class LandBean implements Serializable{
+    @EJB
+    private Recommendation recommendation;    
     
     private static final String LATCH_APP_ID = "W2i6TtX6N8C9GNugxkRh";
     private static final String LATCH_SECRET = "T67WcbigW69xjzqJMFuYp9xFRFRj3YrcgMVaxwTQ";
-    
-    Recommendation recommendation = new Recommendation();
     private Land landSelected;
     private boolean needIrrigate;
     private JsonArray wsResult;

@@ -17,13 +17,13 @@ import java.util.logging.Logger;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.Part;
 import teleriegojsf.model.Membership;
 import teleriegojsf.model.Transaction;
-import teleriegojsf.model.mail.Mail;
 
 /**
  *
@@ -31,6 +31,9 @@ import teleriegojsf.model.mail.Mail;
  */
 @Stateless
 public class MembershipFacade extends AbstractFacade<Membership> {
+    @EJB
+    private Mail mail;    
+    
     private static final Random RANDOM = new SecureRandom();
     private final long MAXSIZE = 4096;
     private static final int KEY_LENGTH = 256;
@@ -179,7 +182,7 @@ public class MembershipFacade extends AbstractFacade<Membership> {
                 " ha sido rechazado. Se ha cumplido el plazo de pago de esta transacción. Debe"
                 + " realizarla de nuevo si desea agua para su terreno "+transaction.getLandId().getNameland()+".";
         }
-        Mail mail = new Mail(asunto, mensaje,destino);
+        mail = new Mail(asunto, mensaje,destino);
         mail.sendMail();
 
     }

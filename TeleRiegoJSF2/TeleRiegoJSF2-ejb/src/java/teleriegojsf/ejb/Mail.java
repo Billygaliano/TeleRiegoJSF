@@ -1,7 +1,8 @@
-package teleriegojsf.model.mail;
+package teleriegojsf.ejb;
 
 import java.util.Date;
 import java.util.Properties;
+import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -19,6 +20,7 @@ import javax.mail.internet.MimeMessage;
  *
  * @author aitorpagan
  */
+@Stateless
 public class Mail {
         String servidorSMTP = "smtp.gmail.com";
         String puerto = "587";
@@ -28,6 +30,9 @@ public class Mail {
         String destino = null;
         String asunto = null;
         String mensaje = null;
+
+    public Mail() {
+    }
 
     public Mail(String subject, String message, String destiny){
         this.destino = destiny;

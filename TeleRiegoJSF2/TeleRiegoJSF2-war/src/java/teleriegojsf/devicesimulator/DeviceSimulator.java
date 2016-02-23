@@ -16,10 +16,8 @@ import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import teleriegojsf.controller.ServletLand;
-import teleriegojsf.controller.ServletStartIrrigation;
 import teleriegojsf.model.Land;
-import teleriegojsf.model.rs.Recommendation;
+import teleriegojsf.ejb.Recommendation;
 import teleriegojsf.ejb.LandFacade;
 
 /**
@@ -45,12 +43,14 @@ public class DeviceSimulator implements Runnable{
         Date today = new Date();
         SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
         String todayString = formateador.format(today);
+        
+        Date todayDate = null;
         try {
-            Date todayDate = formateador.parse(todayString);
-            landFacade.updateLastDateIrrigation(landId, todayDate);
+            todayDate = formateador.parse(todayString);
         } catch (ParseException ex) {
-            Logger.getLogger(ServletLand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeviceSimulator.class.getName()).log(Level.SEVERE, null, ex);
         }
+        landFacade.updateLastDateIrrigation(landId, todayDate);
         
         Land specificLand = landFacade.getLand(landId);
         BigInteger wMAvailable = specificLand.getWMAvailable();
@@ -76,7 +76,7 @@ public class DeviceSimulator implements Runnable{
                 try {
                     sleep(2000);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(ServletStartIrrigation.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DeviceSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 

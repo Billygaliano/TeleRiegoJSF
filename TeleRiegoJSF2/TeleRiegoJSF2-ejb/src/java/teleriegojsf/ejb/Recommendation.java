@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package teleriegojsf.model.rs;
+package teleriegojsf.ejb;
 
 import java.math.BigInteger;
 import java.util.Date;
+import javax.ejb.Stateless;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -14,8 +15,8 @@ import javax.json.JsonObject;
  *
  * @author macbookpro
  */
-public class Recommendation {
-    
+@Stateless
+public class Recommendation {    
     public boolean suggestIrrigation(BigInteger humidity, Date lastDateIrrigation, BigInteger wMAvailable, JsonArray weatherPredictions){     
         
         if(!thereIsWaterAvailable(wMAvailable)){

@@ -62,6 +62,8 @@ public class TransactionAdminBean {
            membershipFacade.sendTransactionEmail(nOrder);
         }
         
+        transactions = transactionFacade.getTransactions();
+        
         return ("transactionAdmin");
     }
     
@@ -85,6 +87,8 @@ public class TransactionAdminBean {
            transactionFacade.deniedAdminTransaction(nOrder);
            membershipFacade.sendTransactionEmail(nOrder);
         }
+        
+        transactions = transactionFacade.getTransactions();
         
         return ("transactionAdmin");
     }
