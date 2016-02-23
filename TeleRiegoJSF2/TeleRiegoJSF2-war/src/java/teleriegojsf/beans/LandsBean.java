@@ -8,8 +8,10 @@ package teleriegojsf.beans;
 import javax.faces.bean.RequestScoped;
 import java.util.Collection;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import teleriegojsf.ejb.LandFacade;
 import teleriegojsf.model.Land;
 
 /**
@@ -19,9 +21,13 @@ import teleriegojsf.model.Land;
 @ManagedBean
 @RequestScoped
 public class LandsBean {
+    @EJB
+    private LandFacade landFacade;
     @ManagedProperty(value="#{loginBean}")
     private LoginBean loginBean;    
     private Collection<Land> lands;
+    
+    
 
     /**
      * Creates a new instance of LandsBean
@@ -31,7 +37,11 @@ public class LandsBean {
  
     @PostConstruct
     public void init() {
-        lands = loginBean.getMembershipSelected().getLandCollection();
+        if(loginBean.getMembershipSelected().getRole().equalsIgnoreCase("propietario")){
+            lands = landFacade.getOwnerCollection(loginBean.getMembershipSelected().getMemberNumber());
+        }else{
+            lands = loginBean.getMembershipSelected().getLandCollection();
+        } 
     }
 
     public LoginBean getLoginBean() {

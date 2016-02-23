@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:m="http://code.google.com/p/gmaps4jsf/">
 
     <body>
 
@@ -46,7 +46,11 @@
                                     <h3>Características del terreno</h3>
                                     <p id="area">Superficie: <strong>#{landBean.landSelected.squareMeters} m<sup>2</sup></strong></p>
                                     <p id="humedad">Humedad de la tierra: <strong>#{landBean.landSelected.humidity}%</strong></p>
-                                    <p id="fechariego">Fecha del último riego: <strong>#{landBean.landSelected.lastDateIrrigation}</strong></p>
+                                    <p id="fechariego">Fecha del último riego: <strong>
+                                            <h:outputText value="#{landBean.landSelected.lastDateIrrigation}">
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText></strong>
+                                    </p>
                                 </div>
                                 <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.state eq 'parado'}">
                                     <h3>Agua disponible para regar</h3>
@@ -78,12 +82,23 @@
                                         <h:form>
                                             <h:commandButton action="#{landBean.startIrrigation}" class="line-btn green" value="Regar" />                                           
                                         </h:form>
-                                        <label class="error">El regado está bloqueado por el administrador</label>
+                                        <h:panelGroup rendered="#{landBean.lockedState == true}">
+                                            <label class="error">El regado está bloqueado por el administrador</label>
+                                        </h:panelGroup>
                                     </h:panelGroup>
                                 </h:panelGroup>
                             </div>
                             <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
-                                <p id="map">Información sobre la localización MAPA</p>
+                                <script type="text/javascript"
+                                    src="https://maps.googleapis.com/maps/api/js?sensor=true">
+                                </script> 
+                                <h:form id="formMap">
+                                    <m:map width="100%" height="500px" latitude="#{landBean.landSelected.latitude}" longitude="#{landBean.landSelected.longitude}" zoom="10" enableScrollWheelZoom="true">
+                                        <m:marker>
+                                            <m:htmlInformationWindow htmlText="Terreno #{landBean.landSelected.nameland}"/>
+                                        </m:marker>
+                                    </m:map>
+                                </h:form>
                             </div>                      
                         </div>
                     </section>

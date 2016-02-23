@@ -7,6 +7,7 @@ package teleriegojsf.ejb;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -90,6 +91,10 @@ public class LandFacade extends AbstractFacade<Land> {
         }else{
             return true;
         }
+    }
+    
+    public Collection<Land> getOwnerCollection(BigDecimal memberNumber) {
+        return em.createNamedQuery("Land.findByIdAdmin").setParameter("idAdmin", memberNumber).getResultList();
     }
     
 }

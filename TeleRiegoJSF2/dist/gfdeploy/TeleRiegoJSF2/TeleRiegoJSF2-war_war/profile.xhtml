@@ -67,6 +67,38 @@
                             </h:outputFormat>
                         </div>     
                     </div>
+                     <div class="row mar-bot40  col-md-3" role="group" style="margin-top:0px">
+                            <h:outputFormat rendered="#{sessionScope.membershipSelected.role eq 'propietario'}">
+                                <h:panelGroup rendered="#{loginBean.membershipSelected.accountid eq null}">
+                                    <div class="cform" id="contact-form">
+                                        <h:form>
+                                            <div class="wow bounceIn">
+                                                <div class="form-group">
+                                                    <label>Código de Pareado</label>
+                                                    <h:inputSecret value="#{latchBean.pairCode}" class="form-control" required="true" />
+                                                    <div class="validation"></div>
+                                                </div>
+                                                <h:commandButton action="#{latchBean.doPair}" class="line-btn green" value="Parearse"/>
+                                            </div>
+                                        </h:form>
+                                    </div>
+                                    <h:panelGroup rendered="#{latchBean.message ne null}">
+                                        <h:outputLabel value="#{latchBean.message}" class="error"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{loginBean.membershipSelected.accountid ne null}">
+                                    <div class="cform" id="contact-form">
+                                        <h:form>
+                                            <div class="wow bounceIn">
+                                                <div class="form-group">
+                                                    <h:commandButton action="#{latchBean.doUnpair}" class="line-btn green" value="Desparearse"/>
+                                                </div>
+                                            </div>
+                                        </h:form>
+                                    </div>
+                                </h:panelGroup>
+                            </h:outputFormat>
+                        </div> 
                 </section>
             </div>
             </ui:define>

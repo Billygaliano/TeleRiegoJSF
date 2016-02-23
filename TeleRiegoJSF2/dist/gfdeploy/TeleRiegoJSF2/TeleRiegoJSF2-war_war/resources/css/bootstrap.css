@@ -989,6 +989,15 @@ img {
     height: 40px;
     margin: 0 10px;
 }
+.list-green h3 {
+    background: #417630 !important;
+    color: white !important;
+    font-weight: 100;
+    font-size: large;
+}
+.list-green h3 span {
+    color: white !important;
+}
 hr {
   margin-top: 20px;
   margin-bottom: 20px;

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
         <ui:composition template="Template.xhtml">
@@ -13,19 +14,19 @@
                         <div class="container">  
                             <div class="align-center"><h1>Mis Terrenos</h1><br/> </div>
                             <h:form id="form">
-                                <p:accordionPanel value="#{landsBean.lands}" var="land">
+                                <p:accordionPanel value="#{landsBean.lands}" var="land" class="list-green">
                                     <p:tab title="#{land.nameland}">
                                         <h:panelGrid columns="2" cellpadding="5">           
                                             <h:outputText value="Estado:" style="font-weight: bold" />
                                             <h:outputText value="#{land.state}" />
 
-                                            <h:outputText value="Último riego:" style="font-weight: bold" />
-                                            <h:outputText value="#{land.lastDateIrrigation}" />
-
+                                            <h:outputText value="Último riego: " style="font-weight: bold" />
+                                            <h:outputText value="#{land.lastDateIrrigation}">
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            </h:outputText>
                                             <h:outputText value="Humedad:" style="font-weight: bold" />
                                             <h:outputText value="#{land.humidity}" />
-                                            
-                                            <h:commandButton class="line-btn green" action="#{landBean.doAccess(land.landId)}" value="Acceder" />
+                                            <h:commandButton style="margin-top: 20px;" class="line-btn green" action="#{landBean.doAccess(land.landId)}" value="Acceder" />
                                         </h:panelGrid>
                                     </p:tab>
                                 </p:accordionPanel>
