@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <body>
+
+        <ui:composition template="Template.xhtml">
+            <ui:define name="content">
+                <div class="container">
+                    <section id="login" class="section appear clearfix">
+                        <div class="row mar-bot40" style="margin-top: 40px">
+                            <div class="col-md-offset-3 col-md-6">
+                                <div class="section-header">
+                                    <h2 class="section-heading animated" data-animation="bounceInUp">Compra de agua</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="cform" id="contact-form">
+                                    <h:form class="ServletLogin">
+                                        <div class="wow bounceIn">
+                                            <div class="form-group">
+                                                <label for="name">Nº de socio: #{buyWaterBean.selectedLand.memberNumber.memberNumber}</label> 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Nombre de usuario: #{buyWaterBean.selectedLand.memberNumber.userName} #{buyWaterBean.selectedLand.memberNumber.surname}</label> 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Nombre del terreno: #{buyWaterBean.selectedLand.nameland}</label> 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Precio del litro del agua: </label> <strong> 0.22 €/l</strong>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="email">Cantidad:</label>
+                                                <h:inputText value="#{buyWaterBean.quantity}" class="form-control" id="quantity"  />
+                                            </div>
+                                        </div>
+                                        <h:commandButton action="#{buyWaterBean.doConfirmationBuyWater(buyWaterBean.selectedLand)}" class="line-btn green" value="Comprar"></h:commandButton>
+                                    </h:form>
+                                    <h:panelGroup rendered="#{buyWaterBean.confirmedBuyWater}">
+                                        <p class="verificate">La compra ha sido realizada, total: ${buyWaterBean.total}€.</p>
+                                        <p class="verificateWater">Realice un ingreso en la cuenta 0000 2222 82 3456789990 en un plazo de 48 horas.</p>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+
+
+        

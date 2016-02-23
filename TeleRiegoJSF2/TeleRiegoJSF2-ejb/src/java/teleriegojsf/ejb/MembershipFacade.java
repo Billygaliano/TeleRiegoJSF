@@ -8,8 +8,10 @@ package teleriegojsf.ejb;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.SecretKey;
@@ -29,6 +31,7 @@ import teleriegojsf.model.mail.Mail;
  */
 @Stateless
 public class MembershipFacade extends AbstractFacade<Membership> {
+    private static final Random RANDOM = new SecureRandom();
     private final long MAXSIZE = 4096;
     private static final int KEY_LENGTH = 256;
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -51,12 +54,26 @@ public class MembershipFacade extends AbstractFacade<Membership> {
     }
     
     public boolean changePassword(String oldPass, String newPass, BigDecimal userMemberNumber){
+        System.out.println("HOLAAAA");
         Membership userDB = em.find(Membership.class,userMemberNumber);
         Boolean correctUpdate = false;
         
-        if(oldPass.equals(userDB.getPassword())){  
-            try {  
-                userDB.setPassword(newPass);
+        String passwordDB = userDB.getPassword();
+        String salt = userDB.getSalt();
+        byte[] saltByte = hexStringToBytes(salt);
+        int iterations = userDB.getIterations().intValue();
+        String hashOldPassword = hashPassword(oldPass.toCharArray(),saltByte,iterations,KEY_LENGTH);
+        System.out.println("HOLA" + hashOldPassword);
+        System.out.println("HOLA2" + passwordDB);
+        System.out.println(hashOldPassword.equals(passwordDB));
+        if(hashOldPassword.equals(passwordDB)){  
+            try {
+                char[] password = newPass.toCharArray();
+                byte[] newSalt = getNextSalt();
+                String newHashPass = hashPassword(password,newSalt,iterations,KEY_LENGTH);
+                
+                userDB.setPassword(newHashPass);
+                userDB.setSalt(bytesToHexString(newSalt));
                 em.persist(userDB);
                 correctUpdate = true;
             } catch (Exception ex) {
@@ -130,7 +147,17 @@ public class MembershipFacade extends AbstractFacade<Membership> {
         Membership memberBD = em.find(Membership.class, membnum);
         memberBD.setImage(b);
         em.persist(memberBD);
-        return i;
+       return i;
+        
+    }
+    
+        public boolean setMembershipImage(BigDecimal membnum, byte[] part) throws IOException {
+
+        Membership memberBD = em.find(Membership.class, membnum);
+        memberBD.setImage(part);
+        em.persist(memberBD);
+        
+        return true;
     }
     
     public void sendTransactionEmail(BigDecimal idTransaction){
@@ -183,6 +210,12 @@ public class MembershipFacade extends AbstractFacade<Membership> {
         } catch (Exception ex) {
             Logger.getLogger(MembershipFacade.class.getName()).log(Level.SEVERE, null, ex);
         } 
+    }
+    
+    public static byte[] getNextSalt() {
+        byte[] salt = new byte[32];
+        RANDOM.nextBytes(salt);
+        return salt;
     }
     
     public static String bytesToHexString(byte[] bytes) {

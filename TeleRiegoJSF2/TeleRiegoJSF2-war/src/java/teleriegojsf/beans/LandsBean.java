@@ -5,16 +5,12 @@
  */
 package teleriegojsf.beans;
 
-import java.math.BigDecimal;
 import javax.faces.bean.RequestScoped;
 import java.util.Collection;
-import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import teleriegojsf.ejb.MembershipFacade;
+import javax.faces.bean.ManagedProperty;
 import teleriegojsf.model.Land;
-import teleriegojsf.model.Membership;
 
 /**
  *
@@ -23,8 +19,8 @@ import teleriegojsf.model.Membership;
 @ManagedBean
 @RequestScoped
 public class LandsBean {
-    @EJB
-    private MembershipFacade membershipFacade;    
+    @ManagedProperty(value="#{loginBean}")
+    private LoginBean loginBean;    
     private Collection<Land> lands;
 
     /**
@@ -35,12 +31,15 @@ public class LandsBean {
  
     @PostConstruct
     public void init() {
-        BigDecimal memberNumber = new BigDecimal("123456");
-        Membership membershipSelected = membershipFacade.getMembership(memberNumber);
-        lands = membershipSelected.getLandCollection();
-        for (Land land : lands) {
-            System.out.println("Tierras: " + land.getNameland());
-        }
+        lands = loginBean.getMembershipSelected().getLandCollection();
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
     }
      
     public Collection<Land> getLands() {
@@ -50,5 +49,4 @@ public class LandsBean {
     public void setLands(Collection<Land> lands) {
         this.lands = lands;
     }
-    
 }

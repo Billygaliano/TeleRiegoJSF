@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -12,48 +14,73 @@
                 <div class="container">
                     <section id="perf" class="section appear clearfix">
                         <div class="container">  
-                            <div class="align-center"><h2>Terreno: ${specificLand.nameland}</h2><br></br> </div>
+                            <div class="align-center"><h2>Terreno: #{landBean.landSelected.nameland}</h2><br></br> </div>
                             <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
                                 <div class="land-details">
                                     <h3>Predicción próximos días</h3>
-                                    <table style="width: 100%"> 
-                                        <tbody> 
-                                            <tr>                               
-
-                                            </tr> 
-                                        </tbody>
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <ui:repeat var="predictionForDay" value="#{landBean.wsResult}" varStatus="status">
+                                                <td style="width: 33%">
+                                                    <h:panelGroup rendered="#{predictionForDay.prediction.toString().contains('Soleado')}">
+                                                        <p class="simbDay"><img src="http://www.tiempo.com/css/images/widget/g20/new/big-1.png" alt="Soleado" title="Soleado" /></p>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup rendered="#{predictionForDay.prediction.toString().contains('Poco nuboso')}">
+                                                        <p class="simbDay"><img src="http://www.tiempo.com/css/images/widget/g20/new/big-2.png" alt="Poco nuboso" title="Poco nuboso" /></p>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup rendered="#{predictionForDay.prediction.toString().contains('Muy nuboso')}">
+                                                        <p class="simbDay"><img src="http://www.tiempo.com/css/images/widget/g20/new/big-3.png" alt="Muy nuboso" title="Muy nuboso" /></p>
+                                                    </h:panelGroup>
+                                                    <p class="temps"> 
+                                                        <span class="TMax">#{predictionForDay.tmax}°</span> 
+                                                        <span class="TMin">#{predictionForDay.tmin}°</span> 
+                                                    </p> 
+                                                    <p class="nomData">Lluvia: <span class="data">#{predictionForDay.precipitations} mm</span></p> 
+                                                    <p class="nomData">Prob.: <span class="data">#{predictionForDay.probability}%</span></p>
+                                                </td>
+                                            </ui:repeat>
+                                        </tr>
                                     </table>
                                 </div>
                                 <div class="land-details">
                                     <h3>Características del terreno</h3>
-                                    <p id="area">Superficie: <strong>320m m<sup>2</sup></strong></p>
-                                    <p id="humedad">Humedad de la tierra: <strong>88%</strong></p>
-                                    <p id="fechariego">Fecha del último riego: <strong>22/09/16</strong></p>
+                                    <p id="area">Superficie: <strong>#{landBean.landSelected.squareMeters} m<sup>2</sup></strong></p>
+                                    <p id="humedad">Humedad de la tierra: <strong>#{landBean.landSelected.humidity}%</strong></p>
+                                    <p id="fechariego">Fecha del último riego: <strong>#{landBean.landSelected.lastDateIrrigation}</strong></p>
                                 </div>
-                                <div class="land-details">
-                                        <h3>Agua disponible para regar</h3>
-                                        <p id="humedad">Agua disponible para regar: <strong>332m<sup>3</sup></strong></p>
-                                        <form action="#" method="post" role="form">
-                                            <button type="submit" class="line-btn green">Comprar agua</button>
-                                        </form>
-                                </div>
-                                        <div class="land-details">
-                                                    <h3>Estado del riego</h3>
-                                                    <span>Regando...</span>
-                                                    <form action="#" method="post" role="form">
-                                                        <button type="submit" class="line-btn green">Dejar de regar</button>
-                                                    </form>
-                                                    <h3>Recomendación de riego</h3>
-                                                            <p>Le recomendamos que riegue este terreno.</p>
-                                                            <form action="#" method="post" role="form">
-                                                                <button type="submit" class="line-btn green">Regar</button>
-                                                            </form>
-                                                            <p>Este terreno no necesita regarse.</p>
-                                                            <form action="#" method="post" role="form">
-                                                                <button type="submit" class="line-btn green">Regar</button>
-                                                            </form>
-                                                <label class="error">El regado está bloqueado por el administrador</label>
-                                        </div>
+                                <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.state eq 'parado'}">
+                                    <h3>Agua disponible para regar</h3>
+                                    <p id="humedad">Agua disponible para regar: <strong>#{landBean.landSelected.WMAvailable}m<sup>3</sup></strong></p>
+                                    <h:form id="form">
+                                        <h:commandButton class="line-btn green" action="#{buyWaterBean.doBuyWater()}" value="Comprar agua">
+                                            <f:setPropertyActionListener value="#{landBean.landSelected}" target="#{buyWaterBean.selectedLand}" />
+                                        </h:commandButton>
+                                    </h:form>
+                                    <br/>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.WMAvailable gt landBean.landSelected.squareMeters /1000}">
+                                    <h:panelGroup rendered="#{landBean.landSelected.state eq 'regando'}">
+                                        <h3>Estado del riego</h3>
+                                        <span>Regando...</span>
+                                        <h:form>
+                                            <h:commandButton action="#{landBean.stopIrrigation}" class="line-btn green" value="Dejar de regar" />
+                                        </h:form>
+                                    </h:panelGroup>
+                                    
+                                    <h:panelGroup rendered="#{landBean.landSelected.state eq 'parado'}">
+                                        <h3>Recomendación de riego</h3>
+                                        <h:panelGroup rendered="#{landBean.needIrrigate == true}">
+                                            <p>Le recomendamos que riegue este terreno.</p>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{landBean.needIrrigate == false}">
+                                            <p>Este terreno no necesita regarse.</p>
+                                        </h:panelGroup>
+                                        <h:form>
+                                            <h:commandButton action="#{landBean.startIrrigation}" class="line-btn green" value="Regar" />                                           
+                                        </h:form>
+                                        <label class="error">El regado está bloqueado por el administrador</label>
+                                    </h:panelGroup>
+                                </h:panelGroup>
                             </div>
                             <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
                                 <p id="map">Información sobre la localización MAPA</p>

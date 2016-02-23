@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta charset="utf-8" />
@@ -38,16 +39,10 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                           <li id="photo">  
-                               <div>
-                                    <a href="ServletProfile">
-
-                                    </a>
-                               </div>
-                           </li>
-                            <li><a href="ServletProfile">${membership.userName}</a></li>
-                            <li><a href="faces/transactionAdmin.xhtml">Transacciones</a></li>
-                            <li><h:form><h:commandButton value="Cerrrar" action="#{loginBean.doLogout()}"/></h:form></li>
+                            <li><p:graphicImage value="#{profileBean.photo}" class="img-circle" cache="false"/></li>
+                            <li><a href="profileAdmin.xhtml">#{sessionScope.membershipSelected.userName}</a></li>
+                            <li><a href="transactionAdmin.xhtml">Transacciones</a></li>
+                            <li><h:form><h:commandButton image="resources/img/powerOn.png" class="img-logout" alt="Cerrar sesión" title="Cerrar sesión" action="#{loginBean.doLogout()}"/></h:form></li>
                         </ul>
                     </div><!--/.navbar-collapse -->
                 </div>

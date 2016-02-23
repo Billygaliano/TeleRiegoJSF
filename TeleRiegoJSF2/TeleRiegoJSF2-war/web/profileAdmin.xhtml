@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
@@ -14,22 +15,17 @@
                     <div class="container">  
                         <div class="align-center"><h2>Mi perfil</h2> </div>
                         <div class="row mar-bot40 col-md-2" role="group" style="margin-top: 0px">
-                            <p id="photo" >
-                              <img class="img-rounded " alt="profile" src="#"/>
-                              <h:graphicImage value="images/#{imagesBean}"/>
+                            <p id="photo" > 
+                                <p:graphicImage id="image" value="#{profileBean.photo}" class="img-rounded" cache="false"/>
                             </p>
-                            <a href="ServletUploadImage"><button type="button" id="uploadimage" class="line-btn green">Cambiar/Subir Foto</button></a>
-                                <form action="ServletChangeImage" method="POST" enctype="multipart/form-data">
-                                    <input type="file" name="image" />
-                                    <input type="submit" value="Subir" />
-                                </form>
-                                
-                                    <div id="baduploadimage" class="error">
-                                        Imagen no válida
-                                    </div>
-                                
-                            
-                            
+                            <h:form><h:commandButton action="#{profileBean.showUploadImage}" class="line-btn green" value="Cambiar/Subir Foto"/></h:form>
+                            <h:panelGroup rendered="#{profileBean.uploadImage == true}">
+                            <h:form enctype="multipart/form-data">
+                                <p:fileUpload required="true" value="#{profileBean.file}" mode="simple" skinSimple="true"/>
+                                <h:commandButton actionListener="#{profileBean.doUploadImage}" value="Submit"/>
+                            </h:form>
+                            </h:panelGroup> 
+                            <h:message for="image" style="list-style: none; padding-left: 0px" infoClass="verificate" errorClass="verificate"/>
                         </div>                        
                         <div class="row mar-bot40 col-md-offset-1 col-md-4" role="group" style="margin-top: 0px"> 
                             <p>Número de usuario: <strong>#{sessionScope.membershipSelected.memberNumber}</strong></p>
@@ -38,14 +34,37 @@
                             <p>Dirección: <strong>#{sessionScope.membershipSelected.address}</strong></p>
                             <p>Teléfono: <strong>#{sessionScope.membershipSelected.phone}</strong></p>
                             <p>E-Mail: <strong>#{sessionScope.membershipSelected.email}</strong></p>
-                            <a href="#"><button type="button" id="changepass" class="line-btn green">Cambiar Contraseña</button></a>                         
+                            <h:outputFormat rendered="#{profileBean.passwordChange == false}">
+                                <h:form><h:commandButton action="#{profileBean.showChangePassword}" class="line-btn green" id="changepass" value="Cambiar Contraseña"/></h:form>
+                            <h:panelGroup id="wrongPass" rendered="#{profileBean.passwordValid == false}">
+                                <h:outputLabel value="#{profileBean.message}" class="error"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="validPass" rendered="#{profileBean.passwordValid == true}">
+                                <h:outputLabel value="#{profileBean.message}"/>
+                            </h:panelGroup>
+                            </h:outputFormat>
                         </div>
                         <div class="row mar-bot40 col-lg-offset-2 col-md-3" role="group" style="margin-top:0px">
+                            <h:outputFormat rendered="#{profileBean.passwordChange == true}">
                                 <div class="cform" id="contact-form">
-                                  
+                                    <h:form>
+                                        <div class="wow bounceIn">
+                                            <div class="form-group">
+                                                <label for="name">Contraseña Actual</label>
+                                                <h:inputSecret value="#{profileBean.oldPassword}" class="form-control" required="true"/>
+                                                <div class="validation"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Nueva Contraseña</label>
+                                                <h:inputSecret value="#{profileBean.newPassword}" class="form-control" required="true" />
+                                                <div class="validation"></div>
+                                            </div>
+                                            <h:commandButton action="#{profileBean.doChangePassword()}" class="line-btn green" value="Confirmar Contraseña"/>
+                                        </div>
+                                    </h:form>
                                 </div>
-
-                        </div>    
+                            </h:outputFormat>
+                        </div>        
                     </div>
                 </section>
             </div>
