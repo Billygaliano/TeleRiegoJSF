@@ -6,11 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:m="http://code.google.com/p/gmaps4jsf/">
 
+   
     <body>
 
         <ui:composition template="Template.xhtml">
 
             <ui:define name="content">
+            <script type="text/javascript" src="resources/js/websocket.js"/>
+
                 <div class="container">
                     <section id="perf" class="section appear clearfix">
                         <div class="container">  
@@ -45,8 +48,9 @@
                                 </div>
                                 <div class="land-details">
                                     <h3>Características del terreno</h3>
+                                    <label id="landId" hidden="true">#{landBean.landSelected.landId}</label>
                                     <p id="area">Superficie: <strong>#{landBean.landSelected.squareMeters} m<sup>2</sup></strong></p>
-                                    <p id="humedad">Humedad de la tierra: <strong>#{landBean.landSelected.humidity}%</strong></p>
+                                    <p>Humedad de la tierra: <strong><div id="humedad">#{landBean.landSelected.humidity}%</div></strong></p>
                                     <p id="fechariego">Fecha del último riego: <strong>
                                             <h:outputText value="#{landBean.landSelected.lastDateIrrigation}">
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
@@ -54,8 +58,8 @@
                                     </p>
                                 </div>
                                 <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.state eq 'parado'}">
-                                    <h3>Agua disponible para regar</h3>
-                                    <p id="humedad">Agua disponible para regar: <strong>#{landBean.landSelected.WMAvailable}m<sup>3</sup></strong></p>
+                                    <h3 id="parado">Agua disponible para regar</h3>
+                                    <p>Agua disponible para regar: <strong>#{landBean.landSelected.WMAvailable}m<sup>3</sup></strong></p>
                                     <h:form id="form">
                                         <h:commandButton class="line-btn green" action="#{buyWaterBean.doBuyWater()}" value="Comprar agua">
                                             <f:setPropertyActionListener value="#{landBean.landSelected}" target="#{buyWaterBean.selectedLand}" />
@@ -65,7 +69,7 @@
                                 </h:panelGroup>
                                 <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.WMAvailable gt landBean.landSelected.squareMeters /1000}">
                                     <h:panelGroup rendered="#{landBean.landSelected.state eq 'regando'}">
-                                        <h3>Estado del riego</h3>
+                                        <h3 id="regando">Estado del riego</h3>
                                         <span>Regando...</span>
                                         <h:form>
                                             <h:commandButton action="#{landBean.stopIrrigation}" class="line-btn green" value="Dejar de regar" />
@@ -92,7 +96,7 @@
                             <div class="row mar-bot40 col-sm-6" role="group" style="margin-top: 0px">
                                 <script type="text/javascript"
                                     src="https://maps.googleapis.com/maps/api/js?sensor=true">
-                                </script> 
+                                </script>
                                 <h:form id="formMap">
                                     <m:map width="100%" height="500px" latitude="#{landBean.landSelected.latitude}" longitude="#{landBean.landSelected.longitude}" zoom="10" enableScrollWheelZoom="true">
                                         <m:marker>
@@ -104,7 +108,9 @@
                         </div>
                     </section>
                 </div>
+
             </ui:define>
         </ui:composition>
+       
     </body>
 </html>

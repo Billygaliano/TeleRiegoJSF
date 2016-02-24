@@ -81,11 +81,11 @@ public class LandBean implements Serializable{
     public String stopIrrigation(){
         landFacade.updateStateLand(landSelected.getLandId(), "parado");
         landSelected = landFacade.getLand(landSelected.getLandId());
+        landSelected.setState("parado");
         return("land");
     }
     
     public String startIrrigation(){
-     
         LatchApp latch = new LatchApp(LATCH_APP_ID, LATCH_SECRET);
         BigDecimal ownerId = new BigDecimal(landSelected.getIdAdmin());
         LatchResponse opStatusResponse = latch.operationStatus(membershipFacade.getMembership(ownerId).getAccountid(), "q7QmGeQZukAihrETBbbT");
@@ -109,6 +109,7 @@ public class LandBean implements Serializable{
             else {
 
                 if (!landFacade.getStateIrrigate(landSelected.getLandId()) && landFacade.thereIsWaterAvailable(landSelected.getLandId())) {
+                                    System.out.println("¿Estoy pasando por aquí siempre?");
                     DeviceSimulator deviceSimulator = new DeviceSimulator(landSelected.getLandId());
                     landSelected.setState("regando");
                     lockedState = false;
@@ -120,7 +121,7 @@ public class LandBean implements Serializable{
     }
 
     public Land getLandSelected() {
-        return landSelected;
+        return landFacade.getLand(landSelected.getLandId());
     }
 
     public void setLandSelected(Land landSelected) {

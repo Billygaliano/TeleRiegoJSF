@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import teleriegojsf.model.Land;
+import teleriegojsf.model.Membership;
 
 /**
  *
@@ -49,7 +50,7 @@ public class LandFacade extends AbstractFacade<Land> {
     
     public void updateStateLand(BigDecimal landId, String state){
         Land land = em.find(Land.class,landId);
-        
+        em.refresh(land);
         land.setState(state);
         em.persist(land);
     }
@@ -94,7 +95,15 @@ public class LandFacade extends AbstractFacade<Land> {
     }
     
     public Collection<Land> getOwnerCollection(BigDecimal memberNumber) {
-        return em.createNamedQuery("Land.findByIdAdmin").setParameter("idAdmin", memberNumber).getResultList();
+        Collection<Land> cL = em.createNamedQuery("Land.findByIdAdmin").setParameter("idAdmin", memberNumber).getResultList();
+        //em.refresh(cL);
+        return cL;
+    }
+    
+    public Collection<Land> getUserCollection(Membership memberNumber) {
+        Collection<Land> cL = em.createNamedQuery("Land.findByMemberNumber").setParameter("memberNumber", memberNumber).getResultList();
+        //em.refresh(cL);
+        return cL;
     }
     
 }

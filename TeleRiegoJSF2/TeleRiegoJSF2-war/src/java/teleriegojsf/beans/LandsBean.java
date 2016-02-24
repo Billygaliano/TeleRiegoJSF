@@ -52,7 +52,7 @@ public class LandsBean {
         if(loginBean.getMembershipSelected().getRole().equalsIgnoreCase("propietario")){
             lands = landFacade.getOwnerCollection(loginBean.getMembershipSelected().getMemberNumber());
         }else{
-            lands = loginBean.getMembershipSelected().getLandCollection();
+            lands = landFacade.getUserCollection(loginBean.getMembershipSelected());
         } 
     }
 
