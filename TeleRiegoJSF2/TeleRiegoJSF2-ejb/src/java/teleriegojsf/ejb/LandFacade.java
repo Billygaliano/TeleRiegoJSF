@@ -71,6 +71,12 @@ public class LandFacade extends AbstractFacade<Land> {
         
     }
     
+    public BigInteger getHumidityLand(BigDecimal landId){
+        Land land = em.find(Land.class,landId);
+        em.refresh(land);
+        return land.getHumidity();
+    }
+    
     public boolean getStateIrrigate(BigDecimal landId){
         Land land = em.find(Land.class,landId);
         

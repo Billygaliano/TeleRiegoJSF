@@ -50,7 +50,7 @@
                                     <h3>Características del terreno</h3>
                                     <label id="landId" hidden="true">#{landBean.landSelected.landId}</label>
                                     <p id="area">Superficie: <strong>#{landBean.landSelected.squareMeters} m<sup>2</sup></strong></p>
-                                    <p>Humedad de la tierra: <strong><div id="humedad">#{landBean.landSelected.humidity}%</div></strong></p>
+                                    <p><div id="humedad">Humedad de la tierra: <strong>  #{landBean.landSelected.humidity}%</strong></div></p>
                                     <p id="fechariego">Fecha del último riego: <strong>
                                             <h:outputText value="#{landBean.landSelected.lastDateIrrigation}">
                                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
@@ -70,6 +70,7 @@
                                 <h:panelGroup layout="block" class="land-details" rendered="#{landBean.landSelected.WMAvailable gt landBean.landSelected.squareMeters /1000}">
                                     <h:panelGroup rendered="#{landBean.landSelected.state eq 'regando'}">
                                         <h3 id="regando">Estado del riego</h3>
+                                        <p><div id="aguaDisponible">Agua disponible para regar: <strong>#{landBean.landSelected.WMAvailable}m<sup>3</sup></strong></div></p>
                                         <span>Regando...</span>
                                         <h:form>
                                             <h:commandButton action="#{landBean.stopIrrigation}" class="line-btn green" value="Dejar de regar" />

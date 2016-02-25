@@ -6,15 +6,11 @@
 
 
 window.onload = init;
-var socket = new WebSocket("ws://localhost:8080/TeleRiegoJSF2-war/actions");
+var socket = new WebSocket("wss://localhost:8181/TeleRiegoJSF2-war/actions");
 socket.onmessage = onMessage;
 
 
 
-function finish(){
-    alert("Hola me voy")
-    socket.close();
-}
 
 function onMessage(event) {
     var device = JSON.parse(event.data);
@@ -22,12 +18,12 @@ function onMessage(event) {
 //        printDeviceElement(device);
 //    }
     if(device.landid == document.getElementById("landId").innerHTML){
-           
+            document.getElementById("aguaDisponible").innerHTML ="Agua disponible para regar: <strong>" + device.Agua + "m3 </strong>";
+            document.getElementById("humedad").innerHTML ="Humedad de la tierra: <strong>" + device.Humedad + "% </strong>";
            resta = device.Agua - (device.Meters / 1000);
-        if(device.Estado == "parado" && resta <= 0){   
+        if((device.Estado == "parado" && resta <= 0) || device.Humedad ==100){
             window.location.reload(true);
         }
-        document.getElementById("humedad").innerHTML ="<strong>" + device.Humedad + "% </strong>";
     }
 
 }

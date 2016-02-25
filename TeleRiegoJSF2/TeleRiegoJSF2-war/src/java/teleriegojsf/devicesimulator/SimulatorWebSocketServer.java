@@ -36,19 +36,19 @@ public class SimulatorWebSocketServer {
 
     @OnOpen
         public void open(Session session) {
-            System.out.println("Esta sesión se ha abierto" + session);
+            System.out.println("Esta sesión se ha abierto con Id " + session.getId());
             sessionHandler.addSession(session);
     }
 
     @OnClose
     public void close(Session session) {
-        System.out.println("Hola me estoy cerrando " +  session.getId());
+        System.out.println("Hola estoy cerrando la session con id " +  session.getId());
         sessionHandler.removeSession(session);
     }
 
     @OnError
         public void onError(Throwable error) {
-
+            System.out.println("HAY UN ERROR FERNANDO");
     }
 
     @OnMessage
@@ -58,9 +58,7 @@ public class SimulatorWebSocketServer {
            sessionHandler.requestLand(jsonMessage.getString("landid"), session);
            }
            
-           System.out.println("Hola He recibido un mensaje " + message + "\n\n");
-            
-             
+//           System.out.println("Hola He recibido un mensaje " + message + "\n\n");
 
     }
 }

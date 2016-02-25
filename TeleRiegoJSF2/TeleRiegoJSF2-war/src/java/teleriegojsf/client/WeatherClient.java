@@ -26,7 +26,7 @@ public class WeatherClient {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/WeatherWS/webresources";
+    private static final String BASE_URI = "https://localhost:8181/WeatherWS/webresources";
 
     public WeatherClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();

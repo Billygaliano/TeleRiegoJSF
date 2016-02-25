@@ -41,11 +41,11 @@ public class WebSocketSessionHandler {
     public void requestLand(String landId, Session session) throws InterruptedException{
         BigDecimal id = new BigDecimal(landId);
         Land landdefault = landFacade.getLand(id);
-//        while (landdefault.getState().equalsIgnoreCase("regando") && session.isOpen()) { 
-//            landdefault = landFacade.getLand(id);
+        while (landdefault.getState().equalsIgnoreCase("regando") && session.isOpen()) { 
+            landdefault = landFacade.getLand(id);
             
             sendToSession(session, createAddMessage(landdefault));
-//        }
+        }
     }
 
 
@@ -59,6 +59,7 @@ public class WebSocketSessionHandler {
                 .add("Agua", land.getWMAvailable())
                 .add("Meters", land.getSquareMeters())
                 .build();
+            System.out.println("Agua del mensaje" + land.getWMAvailable());
         return addMessage;
     }
 

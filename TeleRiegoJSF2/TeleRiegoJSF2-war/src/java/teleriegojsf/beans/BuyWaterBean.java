@@ -12,7 +12,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import teleriegojsf.ejb.TransactionFacade;
 import teleriegojsf.model.Land;
@@ -22,13 +23,15 @@ import teleriegojsf.model.Land;
  * @author inftel12
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class BuyWaterBean implements Serializable{
     private boolean confirmedBuyWater;
     private String quantity;
     private double total;
     private Land selectedLand;
     private LoginBean loginBean;
+    @ManagedProperty(value = "#{landBean}")
+    private LandBean landBean;
     
     @EJB
     private TransactionFacade transactionFacade;
@@ -44,6 +47,7 @@ public class BuyWaterBean implements Serializable{
                 Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        selectedLand = landBean.getLandSelected();
     }
 
     /**
@@ -97,5 +101,14 @@ public class BuyWaterBean implements Serializable{
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public LandBean getLandBean() {
+        return landBean;
+    }
+
+    public void setLandBean(LandBean landBean) {
+        this.landBean = landBean;
+    }
+    
     
 }

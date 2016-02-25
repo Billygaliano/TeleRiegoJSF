@@ -12,9 +12,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import teleriegojsf.ejb.MembershipFacade;
-import teleriegojsf.model.Membership;
 
 /**
  *

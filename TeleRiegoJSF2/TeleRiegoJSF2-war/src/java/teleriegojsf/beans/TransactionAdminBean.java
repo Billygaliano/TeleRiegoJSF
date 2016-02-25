@@ -63,7 +63,7 @@ public class TransactionAdminBean {
         
         double amountWaterInteger = transaction.getAmount();
         BigInteger amountWater = new BigDecimal(amountWaterInteger).toBigInteger();
-        BigDecimal memberNumber = new BigDecimal("1234");
+        BigDecimal memberNumber = new BigDecimal(loginBean.getMemberNumber());
         Membership membership = membershipFacade.getMembership(memberNumber);
         
         //Only can access if membership is an administrator

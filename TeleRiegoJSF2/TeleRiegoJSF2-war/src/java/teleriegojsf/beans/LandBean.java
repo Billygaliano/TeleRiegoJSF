@@ -10,6 +10,7 @@ import com.elevenpaths.latch.LatchResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -80,8 +81,9 @@ public class LandBean implements Serializable{
     
     public String stopIrrigation(){
         landFacade.updateStateLand(landSelected.getLandId(), "parado");
-        landSelected = landFacade.getLand(landSelected.getLandId());
         landSelected.setState("parado");
+        landSelected = landFacade.getLand(landSelected.getLandId());
+        System.out.println("Humedad stopIrrigation " + landSelected.getHumidity());
         return("land");
     }
     
@@ -90,7 +92,10 @@ public class LandBean implements Serializable{
         BigDecimal ownerId = new BigDecimal(landSelected.getIdAdmin());
         LatchResponse opStatusResponse = latch.operationStatus(membershipFacade.getMembership(ownerId).getAccountid(), "q7QmGeQZukAihrETBbbT");
         
-        if(membershipFacade.getMembership(ownerId).getAccountid() == null){
+        BigDecimal bigLandId = new BigDecimal(landSelected.getLandId().toString());
+        landSelected.setHumidity(landFacade.getHumidityLand(bigLandId));
+        
+        if(membershipFacade.getMembership(ownerId).getAccountid() == null && landSelected.getHumidity().intValue() < 100){
             if (!landFacade.getStateIrrigate(landSelected.getLandId()) && landFacade.thereIsWaterAvailable(landSelected.getLandId())) {
                     DeviceSimulator deviceSimulator = new DeviceSimulator(landSelected.getLandId());
                     landSelected.setState("regando");
@@ -108,8 +113,8 @@ public class LandBean implements Serializable{
             }
             else {
 
-                if (!landFacade.getStateIrrigate(landSelected.getLandId()) && landFacade.thereIsWaterAvailable(landSelected.getLandId())) {
-                                    System.out.println("¿Estoy pasando por aquí siempre?");
+                if (!landFacade.getStateIrrigate(landSelected.getLandId()) && landFacade.thereIsWaterAvailable(landSelected.getLandId()) && landSelected.getHumidity().intValue() < 100) {
+                                    System.out.println("Hay esta humedad" + landSelected.getHumidity().intValue());
                     DeviceSimulator deviceSimulator = new DeviceSimulator(landSelected.getLandId());
                     landSelected.setState("regando");
                     lockedState = false;
