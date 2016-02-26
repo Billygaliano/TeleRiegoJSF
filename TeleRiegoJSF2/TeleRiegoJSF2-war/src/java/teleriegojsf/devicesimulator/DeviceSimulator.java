@@ -79,7 +79,7 @@ public class DeviceSimulator implements Runnable{
                 }
             }
 
-            //System.out.println("Nombre del terreno: " + specificLand.getNameland() + " - Humedad: " + trueHumidity + " - Agua disponible: " + trueWMAvailable + " - Estado: " + specificLand.getState() + "\n");
+            System.out.println("Nombre del terreno: " + specificLand.getNameland() + " - Humedad: " + trueHumidity + " - Agua disponible: " + trueWMAvailable + " - Estado: " + specificLand.getState() + "\n");
 
             humidity = BigInteger.valueOf(trueHumidity);
             wMAvailable = BigInteger.valueOf(trueWMAvailable);

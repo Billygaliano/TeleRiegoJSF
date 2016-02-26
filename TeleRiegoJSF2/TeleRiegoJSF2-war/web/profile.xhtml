@@ -16,7 +16,7 @@
                         <div class="align-center"><h2>Mi perfil</h2> </div>
                         <div class="row mar-bot40 col-md-2" role="group" style="margin-top: 0px">
                             <p id="photo" > 
-                                <p:graphicImage id="image" value="#{profileBean.photo}" class="img-rounded" style="padding-left: 40px" cache="false"/>
+                                <p:graphicImage id="image" value="#{profileBean.photo}" class="img-rounded" style="margin-left: 25px" cache="false"/>
                             </p>
                             <h:form><h:commandButton action="#{profileBean.showUploadImage}" class="line-btn green" value="Cambiar/Subir Foto"/></h:form>
                             <h:panelGroup rendered="#{profileBean.uploadImage == true}">

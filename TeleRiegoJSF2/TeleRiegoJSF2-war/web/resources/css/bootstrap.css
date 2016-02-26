@@ -966,6 +966,50 @@ img {
   vertical-align: middle;
   width: 200px;
 }
+
+root{
+    display: block;
+}
+.alinizq{
+    text-align: left;
+    padding: 15px;
+}
+.alinder{
+    text-align: right;
+    padding-right: 20px;
+}
+.centrado{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-steps .ui-steps-item {
+    width: 24%;
+}
+ 
+.ui-state-highlight {
+    text-shadow: none !important;
+}
+ 
+.ui-steps.custom {
+    margin-bottom: 30px;
+}
+ 
+.ui-steps.custom .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+}
+ 
+.ui-steps.custom .ui-steps-item .ui-steps-number {
+    background-color: #0081c2;
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
 .img-thumbnail {
   display: inline-block;
   width: 100% \9;

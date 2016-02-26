@@ -1,0 +1,27 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\froman\fcharset0 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Pasos a realizar para ejecutar la aplicaci\'f3n correctamente:\
+\
+1. Se debe ejecutar con seguridad, porque el websocket y nuestro webservice esta configurado para trabajar en modo seguro (https). Si no accedemos en modo seguro, la p\'e1gina de los terrenos no funcionar\'e1 correctamente -> {\field{\*\fldinst{HYPERLINK "https://localhost:8181/TeleRiegoJSF2-war/"}}{\fldrslt https://localhost:8181/TeleRiegoJSF2-war/}}\
+\
+Nota: Hemos subido los certificados de Teleriego por si se desean importar en el keytool de Netbeans.\
+\
+2. Se tiene que importar el certificado de autorizaci\'f3n de latch en el keytool de netbeans, para que funcione el regar y el pareado de nuestra aplicaci\'f3n. Hemos subido el certificado en la carpeta ca_latch de nuestro proyecto. \
+Para importarlo desde el terminal vamos a la ruta -> 
+\f1\fs22 \CocoaLigature0 /Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/confi\'f3\
+\
+Y ejecutamos el siguiente comando:\
+\
+\pard\pardeftab720
+
+\f2\fs24 \cf2 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec2 keytool -import -v -trustcacerts -alias -file ca.cert -keystore cacerts.jks -storepass 
+\f1\fs22 \cf0 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+}

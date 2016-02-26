@@ -74,7 +74,6 @@ public class LandBean implements Serializable{
         wsResult = weatherClient.findAll_JSON(JsonArray.class);
         
         landSelected = landFacade.getLand(landId);
-        System.out.println("Estado: " + landSelected.getState());
         needIrrigate = recommendation.suggestIrrigation(landSelected.getHumidity(), landSelected.getLastDateIrrigation(), landSelected.getWMAvailable(), wsResult);
         return("land");
     }
@@ -83,7 +82,6 @@ public class LandBean implements Serializable{
         landFacade.updateStateLand(landSelected.getLandId(), "parado");
         landSelected.setState("parado");
         landSelected = landFacade.getLand(landSelected.getLandId());
-        System.out.println("Humedad stopIrrigation " + landSelected.getHumidity());
         return("land");
     }
     
@@ -107,14 +105,12 @@ public class LandBean implements Serializable{
         if (opStatusResponse != null && opStatusResponse.getData() != null) {
             String status = opStatusResponse.getData().get("operations").getAsJsonObject().get("q7QmGeQZukAihrETBbbT").getAsJsonObject().get("status").getAsString();
             if (status.equals("off")) {
-                System.out.println("No entra");
                 lockedState = true;
                 
             }
             else {
 
                 if (!landFacade.getStateIrrigate(landSelected.getLandId()) && landFacade.thereIsWaterAvailable(landSelected.getLandId()) && landSelected.getHumidity().intValue() < 100) {
-                                    System.out.println("Hay esta humedad" + landSelected.getHumidity().intValue());
                     DeviceSimulator deviceSimulator = new DeviceSimulator(landSelected.getLandId());
                     landSelected.setState("regando");
                     lockedState = false;

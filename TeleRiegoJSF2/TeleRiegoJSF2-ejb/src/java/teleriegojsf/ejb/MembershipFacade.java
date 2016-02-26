@@ -57,18 +57,14 @@ public class MembershipFacade extends AbstractFacade<Membership> {
     }
     
     public boolean changePassword(String oldPass, String newPass, BigDecimal userMemberNumber){
-        System.out.println("HOLAAAA");
+
         Membership userDB = em.find(Membership.class,userMemberNumber);
         Boolean correctUpdate = false;
-        
         String passwordDB = userDB.getPassword();
         String salt = userDB.getSalt();
         byte[] saltByte = hexStringToBytes(salt);
         int iterations = userDB.getIterations().intValue();
         String hashOldPassword = hashPassword(oldPass.toCharArray(),saltByte,iterations,KEY_LENGTH);
-        System.out.println("HOLA" + hashOldPassword);
-        System.out.println("HOLA2" + passwordDB);
-        System.out.println(hashOldPassword.equals(passwordDB));
         if(hashOldPassword.equals(passwordDB)){  
             try {
                 char[] password = newPass.toCharArray();

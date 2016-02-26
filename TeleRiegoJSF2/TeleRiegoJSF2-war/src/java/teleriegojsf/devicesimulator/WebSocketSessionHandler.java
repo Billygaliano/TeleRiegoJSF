@@ -31,7 +31,6 @@ public class WebSocketSessionHandler {
     
     @PostConstruct
     public void init(){
-        System.out.println("Hola Fernando");
     }
     
     public void addSession(Session session) {
@@ -59,7 +58,6 @@ public class WebSocketSessionHandler {
                 .add("Agua", land.getWMAvailable())
                 .add("Meters", land.getSquareMeters())
                 .build();
-            System.out.println("Agua del mensaje" + land.getWMAvailable());
         return addMessage;
     }
 
