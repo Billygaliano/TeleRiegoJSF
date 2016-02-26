@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import teleriegojsf.ejb.LandFacade;
 import teleriegojsf.model.Land;
@@ -65,7 +64,11 @@ public class LandsBean {
     }
      
     public Collection<Land> getLands() {
-        return lands;
+        if(loginBean.getMembershipSelected().getRole().equalsIgnoreCase("propietario")){
+            return lands = landFacade.getOwnerCollection(loginBean.getMembershipSelected().getMemberNumber());
+        }else{
+            return lands = landFacade.getUserCollection(loginBean.getMembershipSelected());
+        }
     }
 
     public void setLands(Collection<Land> lands) {
